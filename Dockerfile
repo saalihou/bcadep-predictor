@@ -2,7 +2,12 @@ FROM python:3.7-slim-stretch
 
 RUN apt-get update && apt-get install -y git python3-dev gcc build-essential cmake \
     && rm -rf /var/lib/apt/lists/*
-RUN ln -s /usr/local/cuda-5.5 /usr/local/cuda
+
+RUN export CUDA_HOME=/usr/local/cuda
+RUN export LD_LIBRARY_PATH=${CUDA_HOME}/lib64:${LD_LIBRARY_PATH}
+RUN export PATH=${CUDA_HOME}/bin:${PATH}
+RUN export CUDA_BIN_PATH=${CUDA_HOME}
+
 
 COPY requirements.txt .
 
